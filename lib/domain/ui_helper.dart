@@ -50,13 +50,50 @@ class UiHelper {
     required String imgPath,
     double? mWidth = 100,
     double mHight = 100,
+    bool isSelected = false,
   }) {
     return Container(
       width: mWidth,
       height: mHight,
       decoration: BoxDecoration(
+        border: Border.all(
+          // strokeAlign: BorderSide.strokeAlignOutside,
+          color: isSelected ? AppColor.whiteColor : Colors.transparent,
+          width: isSelected ? 3 : 0,
+        ),
         shape: BoxShape.circle,
         image: DecorationImage(image: AssetImage(imgPath), fit: BoxFit.cover),
+      ),
+      child: Center(
+        child: isSelected
+            ? Icon(Icons.done, color: AppColor.whiteColor)
+            : Container(),
+      ),
+    );
+  }
+
+  static CustomRoundedPodcastImg({
+    required String imgPath,
+    double? mWidth = 105,
+    double mHight = 105,
+    bool isSelected = false,
+  }) {
+    return Container(
+      width: mWidth,
+      height: mHight,
+      decoration: BoxDecoration(
+        border: Border.all(
+          // strokeAlign: BorderSide.strokeAlignOutside,
+          color: isSelected ? AppColor.whiteColor : Colors.transparent,
+          width: isSelected ? 3 : 0,
+        ),
+        borderRadius: BorderRadius.circular(12),
+        image: DecorationImage(image: AssetImage(imgPath), fit: BoxFit.cover),
+      ),
+      child: Center(
+        child: isSelected
+            ? Icon(Icons.done, color: AppColor.whiteColor)
+            : Container(),
       ),
     );
   }
