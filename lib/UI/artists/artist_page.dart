@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:spotify/UI/custom_widgets/app_rounded_btn.dart';
 import 'package:spotify/UI/custom_widgets/m_height.dart';
 import 'package:spotify/domain/app_color.dart';
+import 'package:spotify/domain/app_route.dart';
 import 'package:spotify/domain/ui_helper.dart';
 
-class ArtistPage extends StatelessWidget {
+class ArtistPage extends StatefulWidget {
   ArtistPage({super.key});
+
+  @override
+  State<ArtistPage> createState() => _ArtistPageState();
+}
+
+class _ArtistPageState extends State<ArtistPage> {
+  List<int> selectedList = [];
 
   List<Map<String, String>> artistLists = [
     {'img': 'assets/images/The Office.png', 'name': 'The Weeknd'},
@@ -59,37 +68,94 @@ class ArtistPage extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
             child: UiHelper.CustomTextFieldSearch(),
           ),
-          MHeight(mHeight: 20),
+          MHeight(mHeight: 10),
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: GridView.builder(
-                itemCount: artistLists.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  mainAxisSpacing: 11,
-                  crossAxisSpacing: 11,
-                ),
-                itemBuilder: (_, index) {
-                  final artist = artistLists[index];
-                  final artistName = artist['name'] as String;
-                  final artistImg = artist['img'] as String;
-                  return Column(
-                    children: [
-                      UiHelper.CustomRoundedImg(imgPath: artistImg),
-                      Text(
-                        artistName,
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontFamily: 'bold',
-                          fontWeight: FontWeight.bold,
-                          color: AppColor.whiteColor,
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: GridView.builder(
+                    itemCount: artistLists.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      mainAxisSpacing: 11,
+                      crossAxisSpacing: 11,
+                      childAspectRatio: 10 / 12,
+                    ),
+                    itemBuilder: (_, index) {
+                      final artist = artistLists[index];
+                      final artistName = artist['name'] as String;
+                      final artistImg = artist['img'] as String;
+                      return InkWell(
+                        onTap: () {
+                          if (!selectedList.contains(index)) {
+                            setState(() {
+                              selectedList.add(index);
+                            });
+                          } else {
+                            setState(() {
+                              selectedList.remove(index);
+                            });
+                          }
+                        },
+                        child: Column(
+                          children: [
+                            UiHelper.CustomRoundedImg(
+                              imgPath: artistImg,
+                              isSelected: selectedList.contains(index),
+                            ),
+                            MHeight(),
+                            Text(
+                              artistName,
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontFamily: 'bold',
+                                fontWeight: FontWeight.bold,
+                                color: AppColor.whiteColor,
+                              ),
+                            ),
+                          ],
                         ),
+                      );
+                    },
+                  ),
+                ),
+
+                MHeight(),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    height: 190,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        stops: [0.05, 0.8],
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [
+                          AppColor.blackColor.withOpacity(0.9),
+                          Colors.transparent,
+                        ],
                       ),
-                    ],
-                  );
-                },
-              ),
+                    ),
+                    child: Center(
+                      child: selectedList.length >= 3
+                          ? AppRoundedBtn(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  AppRoute.choose_podcast_page,
+                                );
+                              },
+                              text: 'Nextsss',
+                              mHight: 40,
+                              mWidth: 130,
+                            )
+                          : Container(),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
