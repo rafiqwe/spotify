@@ -314,7 +314,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
           Center(
             child: AppRoundedBtn(
               onTap: () {
-                Navigator.pushNamed(context, AppRoute.artist_page);
+                Navigator.pushNamed(context, AppRoute.choose_artist_page);
               },
               text: 'Create an account',
               mWidth: 190,
