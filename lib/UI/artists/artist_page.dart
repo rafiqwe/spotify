@@ -147,7 +147,7 @@ class _ArtistPageState extends State<ArtistPage> {
                                   AppRoute.choose_podcast_page,
                                 );
                               },
-                              text: 'Nextsss',
+                              text: 'Next',
                               mHight: 40,
                               mWidth: 130,
                             )
