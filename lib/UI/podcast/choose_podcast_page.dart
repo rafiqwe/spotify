@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spotify/UI/custom_widgets/app_rounded_btn.dart';
 import 'package:spotify/UI/custom_widgets/m_height.dart';
+import 'package:spotify/UI/dashboard/dashboard_screen.dart';
 import 'package:spotify/domain/app_color.dart';
 import 'package:spotify/domain/app_route.dart';
 import 'package:spotify/domain/ui_helper.dart';
@@ -16,8 +17,6 @@ class ChoosePodcastPage extends StatefulWidget {
 }
 
 class _ChoosePodcastPage extends State<ChoosePodcastPage> {
-  List<int> selectedList = [];
-
   List<Map<String, dynamic>> artistLists = [
     {
       'listName': 'More in Comedy',
@@ -186,9 +185,6 @@ class _ChoosePodcastPage extends State<ChoosePodcastPage> {
                                       children: [
                                         UiHelper.CustomRoundedPodcastImg(
                                           imgPath: artistImg,
-                                          isSelected: selectedList.contains(
-                                            index,
-                                          ),
                                         ),
                                         MHeight(),
                                         Text(
@@ -210,66 +206,6 @@ class _ChoosePodcastPage extends State<ChoosePodcastPage> {
                       },
                     ),
                   ),
-                  // Column(
-                  //   children: [
-                  //     Row(
-                  //       spacing: 10,
-                  //       children: [
-                  //         Column(
-                  //           children: [
-                  //             UiHelper.CustomRoundedPodcastImg(
-                  //               imgPath: 'assets/images/Afterburner.png',
-                  //             ),
-                  //             MHeight(),
-                  //             Text(
-                  //               'Name',
-                  //               style: TextStyle(
-                  //                 fontSize: 12,
-                  //                 fontFamily: 'bold',
-                  //                 fontWeight: FontWeight.bold,
-                  //                 color: AppColor.whiteColor,
-                  //               ),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //         Column(
-                  //           children: [
-                  //             UiHelper.CustomRoundedPodcastImg(
-                  //               imgPath: 'assets/images/Afterburner.png',
-                  //             ),
-                  //             MHeight(),
-                  //             Text(
-                  //               'Name',
-                  //               style: TextStyle(
-                  //                 fontSize: 12,
-                  //                 fontFamily: 'bold',
-                  //                 fontWeight: FontWeight.bold,
-                  //                 color: AppColor.whiteColor,
-                  //               ),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //         Column(
-                  //           children: [
-                  //             UiHelper.CustomRoundedPodcastImg(
-                  //               imgPath: 'assets/images/Afterburner.png',
-                  //             ),
-                  //             MHeight(),
-                  //             Text(
-                  //               'Name',
-                  //               style: TextStyle(
-                  //                 fontSize: 12,
-                  //                 fontFamily: 'bold',
-                  //                 fontWeight: FontWeight.bold,
-                  //                 color: AppColor.whiteColor,
-                  //               ),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ],
-                  // ),
                   MHeight(),
                   Align(
                     alignment: Alignment.bottomCenter,
@@ -288,19 +224,19 @@ class _ChoosePodcastPage extends State<ChoosePodcastPage> {
                         ),
                       ),
                       child: Center(
-                        child: selectedList.length >= 3
-                            ? AppRoundedBtn(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                    context,
-                                    AppRoute.choose_artist_page,
-                                  );
-                                },
-                                text: 'Next',
-                                mHight: 40,
-                                mWidth: 130,
-                              )
-                            : Container(),
+                        child: AppRoundedBtn(
+                          onTap: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DashboardScreen(),
+                              ),
+                            );
+                          },
+                          text: 'Next',
+                          mHight: 40,
+                          mWidth: 130,
+                        ),
                       ),
                     ),
                   ),
