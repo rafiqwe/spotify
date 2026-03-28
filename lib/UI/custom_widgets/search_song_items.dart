@@ -9,31 +9,35 @@ class SearchSongItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          'Your top genres',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: AppColor.whiteColor,
-          ),
-        ),
-        MHeight(mHeight: 20),
-        Row(
-          children: [
-            Container(
-              width: 192,
-              height: 109,
-              decoration: BoxDecoration(
-                color: Colors
-                    .primaries[Random().nextInt(Colors.primaries.length - 1)],
-                borderRadius: BorderRadius.circular(10),
-              ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Your top genres',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: AppColor.whiteColor,
             ),
-          ],
-        ),
-      ],
+          ),
+          MHeight(mHeight: 12),
+          Row(
+            children: [
+              Container(
+                width: 192,
+                height: 109,
+                decoration: BoxDecoration(
+                  color: Colors
+                      .primaries[Random().nextInt(Colors.primaries.length - 1)],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
