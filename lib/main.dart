@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spotify/domain/app_route.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,9 +11,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-      home: Center(child: Text('hello world')),
+      routes: AppRoute.getRoute(),
+      initialRoute: '/',
     );
   }
 }
