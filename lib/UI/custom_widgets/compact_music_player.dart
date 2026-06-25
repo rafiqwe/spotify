@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:palette_generator/palette_generator.dart';
 import 'package:spotify/UI/custom_widgets/m_height.dart';
 import 'package:spotify/domain/app_color.dart';
+import 'package:spotify/domain/ui_helper.dart';
 
-class CompactMusicPlayer extends StatelessWidget {
-  final String songTile;
-  final String albumTitle;
-  final bool isBluetooth;
-  final String bluetoothName;
-  final String songImg;
-  final double height;
+class CompactMusicPlayer extends StatefulWidget {
+    String songTile;
+    String albumTitle;
+    bool isBluetooth;
+    String bluetoothName;
+    String songImg;
+    double height;
+    Color bgColor;
 
-  const CompactMusicPlayer({
+   CompactMusicPlayer({
     super.key,
     required this.songTile,
     required this.albumTitle,
@@ -18,18 +21,40 @@ class CompactMusicPlayer extends StatelessWidget {
     required this.songImg,
     this.isBluetooth = false,
     this.height = 60,
+     required this.bgColor,
+
   });
+
+  @override
+  State<CompactMusicPlayer> createState() => _CompactMusicPlayerState();
+}
+
+class _CompactMusicPlayerState extends State<CompactMusicPlayer> {
+    PaletteGenerator? paletteGenerator;
+
+    @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initilizeColorPalette();
+  }
+
+  initilizeColorPalette() async {
+    paletteGenerator = await getColorPalette(widget.songImg);
+    setState(() {
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 5),
-      height: height,
+      height: widget.height,
       width: double.infinity - 40,
       padding: EdgeInsets.only(left: 10, right: 10, top: 7),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: Color(0XFF550A1C).withOpacity(0.70),
+        color: paletteGenerator!= null ? paletteGenerator!.dominantColor!.color.withOpacity(0.6) : widget.bgColor,
       ),
       child: Column(
         children: [
@@ -42,7 +67,7 @@ class CompactMusicPlayer extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(7),
                   image: DecorationImage(
-                    image: AssetImage('assets/images/$songImg'),
+                    image: AssetImage(widget.songImg),
                   ),
                 ),
               ),
@@ -53,14 +78,14 @@ class CompactMusicPlayer extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          '$songTile/$albumTitle',
+                          '${widget.songTile}/${widget.albumTitle}',
                           style: TextStyle(
                             color: AppColor.whiteColor,
-                            fontSize: 12.5,
+                            fontSize: 11.5,
                             fontFamily: 'demi',
                             fontWeight: FontWeight.bold,
                           ),
-                          overflow: TextOverflow.ellipsis,
+                          overflow: TextOverflow.fade,
                           maxLines: 1,
                         ),
                         Text(
@@ -74,7 +99,7 @@ class CompactMusicPlayer extends StatelessWidget {
                         ),
                       ],
                     ),
-                    isBluetooth
+                    widget.isBluetooth
                         ? Row(
                             spacing: 5,
                             children: [
@@ -84,7 +109,7 @@ class CompactMusicPlayer extends StatelessWidget {
                                 size: 15,
                               ),
                               Text(
-                                bluetoothName,
+                                widget.bluetoothName,
                                 style: TextStyle(
                                   fontSize: 11.5,
                                   fontWeight: FontWeight.w400,
@@ -108,7 +133,7 @@ class CompactMusicPlayer extends StatelessWidget {
           MHeight(mHeight: 7),
           LinearProgressIndicator(
             value: 0.5,
-            valueColor: AlwaysStoppedAnimation<Color>(AppColor.primaryColor),
+            valueColor: AlwaysStoppedAnimation<Color>(paletteGenerator!= null? paletteGenerator!.dominantColor!.color : AppColor.primaryColor),
             color: AppColor.greyColor,
             borderRadius: BorderRadius.circular(10),
           ),
@@ -139,4 +164,5 @@ class CompactMusicPlayer extends StatelessWidget {
       ),
     );
   }
+  
 }
